@@ -40,6 +40,7 @@ public:
         return 1;
 
     }
+
     bool insert(std::string en, std::string trans) override;
     std::string search(std::string en) override;
 };
