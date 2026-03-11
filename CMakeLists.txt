@@ -1,14 +1,23 @@
-cmake_minimum_required(VERSION 4.0)
-project(DSA_proj2)
+cmake_minimum_required(VERSION 3.28)
+project(TRANSGATOR LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include_directories(src)
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.2
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
 
-add_executable(DSA_proj2
-        src/dictionary.cpp
-        src/dictionary.h
-        src/HashMap.cpp
-        src/HashMap.h
-        src/Trie.cpp
-        src/Trie.h)
+file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
+
+add_executable(TRANSGATOR ${PROJECT_SOURCES})
+
+target_compile_features(TRANSGATOR PRIVATE cxx_std_17)
+
+target_link_libraries(TRANSGATOR PRIVATE SFML::Graphics)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TRANSGATOR)

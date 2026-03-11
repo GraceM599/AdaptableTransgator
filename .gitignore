@@ -1,0 +1,20 @@
+# We definitely got help with this using ChatGPT and google
+# build folders
+/build/
+/bin/
+
+# CMake temporary files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio specific
+*.sln
+*.vcxproj*
+*.user
+*.filters
+
+# OS files
+.DS_Store
+Thumbs.db
