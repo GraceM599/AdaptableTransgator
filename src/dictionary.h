@@ -11,7 +11,7 @@ class dictionary {
 public:
     virtual ~dictionary() = default;
 
-    virtual bool insert(std::string en, std::string trans) = 0;
+    virtual bool insert(std::string en, std::string trans, unsigned long long freq) = 0;
     virtual std::string search(std::string en) = 0;
 
 };
