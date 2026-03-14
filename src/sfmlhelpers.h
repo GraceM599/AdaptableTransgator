@@ -25,8 +25,12 @@ struct TextureManager{
 
 class DisplayWindow{
 	private:
+		TextureManager textures;
+
 		sf::RenderWindow window;
 		sf::Font font;
+		sf::RectangleShape horizontaldivider;
+		sf::RectangleShape verticaldivider;
 		
 		sf::Text title;
 		sf::Text prefixdescription;
@@ -63,6 +67,12 @@ class DisplayWindow{
 
 		// updates the results under the trie and hash map implementations, along with the time taken
 		void updateResults();
+
+		// display all the text on screen
+		void drawText();
+
+		// draw and display the buttons
+		void drawButtons();
 
 		// runs the program with all components
 		void run();
