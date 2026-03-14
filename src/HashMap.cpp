@@ -17,7 +17,7 @@
     HashMap::HashMap() {
         loadData();
     }
-    //HashMap::~HashMap();
+    HashMap::~HashMap(){}
     std::vector<std::string> getValues(std::string line) {
         std::vector<std::string> r = {};
         std::string curr = "";
@@ -25,6 +25,10 @@
         for (int i = 0; i<line.size(); ++i) {
             if (line[i] == ',') {
                 r.push_back(curr);
+                curr = "";
+            }
+            else {
+                curr += line[i];
             }
         }
 		return r;
