@@ -1,9 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <optional>
-#include "sfmlhelpers.h"
 
 int main()
 {
-	DisplayWindow start;
-	start.run();
+	sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
+
+	while (window.isOpen())
+	{
+		while (auto event = window.pollEvent())
+		{
+			if (event->is<sf::Event::Closed>())
+				window.close();
+		}
+
+		window.clear(sf::Color::Black);
+		window.display();
+	}
 }
