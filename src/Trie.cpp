@@ -11,6 +11,10 @@ std::vector<std::string> getValues(std::string line) {
     for (int i = 0; i<line.size(); ++i) {
         if (line[i] == ',') {
             r.push_back(curr);
+            curr = "";
+        }
+        else {
+            curr += line[i];
         }
     }
     return r;

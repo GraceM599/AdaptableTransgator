@@ -18,16 +18,25 @@
     HashMap::HashMap() {
         loadData();
     }
+<<<<<<< HEAD
 
     HashMap::~HashMap(){}
 
     std::vector<std::string> HashMap::getValues(std::string line) {
+=======
+    HashMap::~HashMap(){}
+    std::vector<std::string> getValues(std::string line) {
+>>>>>>> 495ae2c01d67bd4e4f128aeb958150447ea4889c
         std::vector<std::string> r = {};
         std::string curr = "";
         line += ",";
         for (int i = 0; i<line.size(); ++i) {
             if (line[i] == ',') {
                 r.push_back(curr);
+                curr = "";
+            }
+            else {
+                curr += line[i];
             }
         }
 		return r;
