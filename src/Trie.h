@@ -31,6 +31,7 @@ public:
     std::vector<std::tuple<std::string, std::string>> prefixSearch(std::string key);
     bool loadData();
     void prefixSearchHelper(TrieNode* start, std::vector<std::tuple<std::string, std::string, unsigned long long>>& result, int count);
+    std::string getFunctionTime(std::string function, std::string word);
 
 
 };

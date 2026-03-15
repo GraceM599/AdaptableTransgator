@@ -157,3 +157,25 @@ void Trie::prefixSearchHelper(Trie::TrieNode* start, std::vector<std::tuple<std:
         }
     }
 }
+
+std::string Trie::getFunctionTime(std::string function, std::string word) {
+    auto clock = std::chrono::high_resolution_clock::now();
+    if (function == "constructor") {
+        clock = std::chrono::high_resolution_clock::now();
+        Trie t;
+    }
+    else if (function == "word search") {
+        clock = std::chrono::high_resolution_clock::now();
+        search(word);
+    }
+    else if (function == "prefix search") {
+        clock = std::chrono::high_resolution_clock::now();
+        prefixSearch(word);
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto total = std::chrono::duration_cast<std::chrono::milliseconds>(end - clock).count();
+
+    return std::to_string(total);
+
+}
