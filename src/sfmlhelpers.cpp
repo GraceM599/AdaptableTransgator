@@ -74,7 +74,6 @@ DisplayWindow::DisplayWindow() :
 	// set all bools to false
 	prefix_on = false;
 	whole_on = false;
-	perform_search = false;
 
 	configureStaticText();
 }
@@ -98,8 +97,20 @@ void DisplayWindow::configureStaticText(){
 	setupText(hashtime, "", 20, sf::Color::Black, {980, 600}, false);
 	setupText(trieresults, "", 50, sf::Color::Black, {0, 0}, true);
 	setupText(hashresults, "", 50, sf::Color::Black, {0, 0}, true);
+	cursor.setSize({2, 38});
+	cursor.setFillColor(sf::Color::Black);
 	// setupText(trieresults, "Translation", 50, sf::Color::Black, {340, 780}, true);
 	// setupText(hashresults, "Translation", 50, sf::Color::Black, {1335, 780}, true);
+}
+
+void DisplayWindow::updateCursor(){
+	if (cursorclock.getElapsedTime().asSeconds() >= .75){
+        cursorvisible = !cursorvisible;
+        cursorclock.restart();
+    }
+
+    sf::FloatRect bounds = inputword.getGlobalBounds(); 
+    cursor.setPosition({bounds.position.x + bounds.size.x + 3, 191});
 }
 
 // signifcant help from my minesweeper project with the name typing and checking - Rylee
@@ -127,7 +138,7 @@ void DisplayWindow::updateInputText(sf::Event &event){
 		
 		// check for enter and perform the search
 		if (keyEvent->code == sf::Keyboard::Key::Enter && input.size() > 0){
-			perform_search = true;
+			
 		}
 	}
 	inputword.setString(input);
@@ -208,6 +219,8 @@ void DisplayWindow::drawText(){
 	window.draw(hashtitle);
 	window.draw(hashtime);
 	window.draw(hashresults);
+	if (cursorvisible)
+		window.draw(cursor);
 }
 
 void DisplayWindow::run(){
@@ -225,6 +238,7 @@ void DisplayWindow::run(){
 			updateInputText(*event);
 			buttonClick(*event);
 		}
+		updateCursor();
 		drawText();
 		window.display();
 	}

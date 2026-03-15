@@ -33,6 +33,8 @@ class DisplayWindow{
 		sf::Font font;
 		sf::RectangleShape horizontaldivider;
 		sf::RectangleShape verticaldivider;
+		sf::RectangleShape cursor;
+		sf::Clock cursorclock;
 		
 		sf::Text title;
 		sf::Text prefixdescription;
@@ -48,7 +50,7 @@ class DisplayWindow{
 		std::string input;
 		bool prefix_on;
 		bool whole_on;
-		bool perform_search;
+		bool cursorvisible;
 
 	public:
 
@@ -61,8 +63,8 @@ class DisplayWindow{
 		// sets up text that doesn't change on the window
 		void configureStaticText();
 
-		// sets up and updates the searchbar text
-		void updateSearchText();
+		// updates the cursor so it's blinking on screen
+		void updateCursor();
 
 		// updates the user input text as they are typing
 		void updateInputText(sf::Event &event);
