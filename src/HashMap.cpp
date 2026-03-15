@@ -160,7 +160,7 @@ unsigned long long HashMap::hash(const std::string& en)
         }
         return result;
     }
-    double HashMap::getFunctionTime(std::string func, std::string word) {
+    std::string HashMap::getFunctionTime(std::string func, std::string word) {
         auto start = std::chrono::high_resolution_clock::now();
         if (func == "constructor") {
             start = std::chrono::high_resolution_clock::now();
@@ -181,7 +181,7 @@ unsigned long long HashMap::hash(const std::string& en)
         std::chrono::duration<double> diff = end - start;
 
 
-        return diff.count();
+        return std::to_string(diff.count());
 
     }
 

@@ -58,7 +58,7 @@ public:
     // "constructor" -> hash map creation time
     // "word search" -> single word translation time
     // "prefix search" -> prefix search translation time
-    double getFunctionTime(std::string func, std::string word = "");
+    std::string getFunctionTime(std::string func, std::string word = "");
 
 };
 
