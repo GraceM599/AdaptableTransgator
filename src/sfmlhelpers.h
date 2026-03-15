@@ -16,7 +16,7 @@ struct TextureManager{
 	sf::Texture searchbar;
 	sf::Texture gotexture;
 
-	// set up image sprites
+	// three sprites - one for the prefix selection, word search selection, go button for search
 	sf::Sprite prefixbutton;
 	sf::Sprite wordsearchbutton;
 	sf::Sprite gobutton;
@@ -34,10 +34,7 @@ class DisplayWindow{
 		sf::RectangleShape horizontaldivider;
 		sf::RectangleShape verticaldivider;
 		sf::RectangleShape cursor;
-		bool cursorvisible = true;
 		sf::Clock cursorclock;
-
-
 		
 		sf::Text title;
 		sf::Text prefixdescription;
@@ -51,12 +48,19 @@ class DisplayWindow{
 		sf::Text hashresults;
 
 		std::string input;
+		std::string hashresult_string;
+		std::string hashtime_string;
+		std::string trieresult_string;
+		std::string trietime_string;
+
 		bool prefix_on;
 		bool whole_on;
-		bool perform_search;
+		bool cursorvisible;
+
+		// HashMap hash;
+		// Trie trie;
 
 	public:
-
 		// constructor
 		DisplayWindow();
 
@@ -66,11 +70,11 @@ class DisplayWindow{
 		// sets up text that doesn't change on the window
 		void configureStaticText();
 
+		// updates the cursor so it's blinking on screen
+		void updateCursor();
+
 		// updates the user input text as they are typing
 		void updateInputText(sf::Event &event);
-
-		// implements a blinking cursor while the user is typing
-		void updateCursor();
 
 		// given a click event, determine if they clicked any buttons and deal with the buttons
 		void buttonClick(sf::Event &event);

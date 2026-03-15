@@ -1,6 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Rect.hpp>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -45,19 +43,11 @@ TextureManager::TextureManager() : prefixbutton(prefixsearch), wordsearchbutton(
 	gobutton.setPosition({1148, 149});
 }
 
-// taken from the minesweeper specs with some modifications for sfml 3.0.2
-void setText(sf::Text &text, float x, float y){
-	sf::FloatRect textRect = text.getLocalBounds();
-	text.setOrigin({textRect.position.x + textRect.size.x/2.0f,
-	textRect.position.y + textRect.size.y/2.0f});
-	text.setPosition(sf::Vector2f(x, y));
-}
-
 void DisplayWindow::setupText(sf::Text &text, std::string message, int size, sf::Color color, std::pair<int, int> pos, bool bold){
 	text.setString(message);
 	text.setCharacterSize(size);
 	text.setFillColor(color);
-	setText(text, pos.first, pos.second);
+	text.setPosition({float(pos.first), float(pos.second)});
 	if (bold)
 		text.setStyle(sf::Text::Bold);
 }
@@ -76,12 +66,14 @@ DisplayWindow::DisplayWindow() :
   	hashresults(font){
 
 	// load our text font
-	font.openFromFile("assets/arialuni.ttf");
+	if (!font.openFromFile("assets/arialuni.ttf"))
+		{
+			std::cerr << "Error loading font";
+		}
 
 	// set all bools to false
 	prefix_on = false;
 	whole_on = false;
-	perform_search = false;
 
 	configureStaticText();
 }
@@ -95,14 +87,28 @@ void DisplayWindow::configureStaticText(){
 	verticaldivider.setFillColor(sf::Color::Black);
 	verticaldivider.setPosition({960, 540});
 
-	setupText(title, "TRANSGATOR: ENGLISH TO SPANISH", 60, sf::Color::Black, {960, 80}, true);
-	setupText(prefixdescription, "Search for translations\n\n\nfor the five most\n\n\ncommon words starting\n\n\nwith a given prefix.", 20, sf::Color::Black, {146, 395}, false);
-	setupText(wholedescription, "Search for a direct\n\n\ntranslation of the\n\n\nentered word.", 20, sf::Color::Black, {1754, 395}, false);
-	setupText(trietitle, "Trie Implementation", 50, sf::Color::Black, {490, 560}, true);
-	setupText(hashtitle, "Hash Map Implementation", 50, sf::Color::Black, {1433, 560}, true);
+	setupText(title, "TRANSGATOR: ENGLISH TO SPANISH", 80, sf::Color::Black, {220, 40}, true);
+	setupText(prefixdescription, "Search for translations\n\n\nfor the five most\n\n\ncommon words starting\n\n\nwith a given prefix.", 20, sf::Color::Black, {50, 330}, false);
+	setupText(wholedescription, "Search for a direct\n\n\ntranslation of the\n\n\nentered word.", 20, sf::Color::Black, {1650, 342}, false);
+	setupText(trietitle, "Trie Implementation", 70, sf::Color::Black, {140, 520}, true);
+	setupText(hashtitle, "Hash Map Implementation", 70, sf::Color::Black, {1015, 520}, true);
 	setupText(inputword, "", 35, sf::Color::Black, {630, 190}, false);
+	setupText(trietime, "", 20, sf::Color::Black, {25, 600}, false);
+	setupText(hashtime, "", 20, sf::Color::Black, {980, 600}, false);
+	setupText(trieresults, "", 50, sf::Color::Black, {0, 0}, true);
+	setupText(hashresults, "", 50, sf::Color::Black, {0, 0}, true);
 	cursor.setSize({2, 38});
 	cursor.setFillColor(sf::Color::Black);
+}
+
+void DisplayWindow::updateCursor(){
+	if (cursorclock.getElapsedTime().asSeconds() >= .75){
+        cursorvisible = !cursorvisible;
+        cursorclock.restart();
+    }
+
+    sf::FloatRect bounds = inputword.getGlobalBounds(); 
+    cursor.setPosition({bounds.position.x + bounds.size.x + 3, 191});
 }
 
 // signifcant help from my minesweeper project with the name typing and checking - Rylee
@@ -129,22 +135,11 @@ void DisplayWindow::updateInputText(sf::Event &event){
 		}
 		
 		// check for enter and perform the search
-		if (keyEvent->code == sf::Keyboard::Key::Enter && input.size() > 0){
-			perform_search = true;
+		if (keyEvent->code == sf::Keyboard::Key::Enter && input.size() > 0 && (whole_on || prefix_on)){
+			runSearch();
 		}
 	}
-
 	inputword.setString(input);
-}
-
-void DisplayWindow::updateCursor(){
-	if (cursorclock.getElapsedTime().asSeconds() >= .75){
-		cursorvisible = !cursorvisible;
-		cursorclock.restart();
-	}
-
-	sf::FloatRect bounds = inputword.getGlobalBounds();	
-	cursor.setPosition({bounds.position.x + bounds.size.x + 3, 191});
 }
 
 void DisplayWindow::buttonClick(sf::Event &event){
@@ -184,22 +179,94 @@ void DisplayWindow::buttonClick(sf::Event &event){
 		}
 
 		if (textures.gobutton.getGlobalBounds().contains(mouseposition)){
-			if (prefix_on || whole_on && input.size() > 0)
+			if ((prefix_on || whole_on) && input.size() > 0)
 				runSearch();
 		}
 	}
 }
 
 void DisplayWindow::runSearch(){
-	
+	hashresult_string = "";
+	trieresult_string = "";
+	if (whole_on)
+	{
+		// hashtime_string = hash.getFunctionTime("word search", input);
+		// hashresult_string = hash.search(input);
+		hashtime_string = "3.1415927"; // temp value until hash map is working for testing
+		hashresult_string = "Resultforhash"; // temp value until hash map is working for testing
+		
+		// something here for trie time
+		// trieresult_string = trie.search(input);
+		trietime_string = "0.12941";
+		trieresult_string = "trieresult";
+	}
+	else
+	{
+		// hashtime_string = hash.getFunctionTime("prefix search", input);
+		// auto hashresultvec = hash.prefixSearch(input);
+
+		hashtime_string = "24.2819";
+		std::vector<std::tuple<std::string, std::string>> hashresultvec = {
+			{"hash", "hola"},
+			{"goodbye", "adiós"},
+			{"please", "por favor"},
+			{"thanks", "gracias"},
+			{"water", "agua"}
+		};
+
+		for (int i = 0; i < 5; i++){
+			hashresult_string = hashresult_string + std::to_string(i+1) + ". " + 
+			std::get<0>(hashresultvec[i]) + " - " + std::get<1>(hashresultvec[i]) + "\n\n";
+		}
+		hashresult_string.erase(hashresult_string.size() - 2);
+
+		// include something here for the trie time
+		// auto trieresultvec = trie.prefixSearch(input);
+
+		trietime_string = "0.219";
+		std::vector<std::tuple<std::string, std::string>> trieresultvec = {
+			{"trie", "gato"},
+			{"dog", "perro"},
+			{"house", "casa"},
+			{"book", "libro"},
+			{"food", "comida"}
+		};
+
+		for (int i = 0; i < 5; i++){
+			trieresult_string = trieresult_string + std::to_string(i+1) + ". " + 
+			std::get<0>(trieresultvec[i]) + " - " + std::get<1>(trieresultvec[i]) + "\n\n";
+		}
+		trieresult_string.erase(trieresult_string.size() - 4);
+	}
+	updateTrieResults();
+	updateHashResults();
 }
 
 void DisplayWindow::updateTrieResults(){
+	trieresults.setString(trieresult_string);
+	trietime.setString("Time taken to complete: " + trietime_string);
+
+	if (whole_on){
+		sf::FloatRect bounds = trieresults.getGlobalBounds();
+		trieresults.setPosition({480 - bounds.size.x/2.0f, 780});
+	}
+
+	else
+		trieresults.setPosition({25, 650});
 
 }
 
 void DisplayWindow::updateHashResults(){
+	hashresults.setString(hashresult_string);
+	hashtime.setString("Time taken to complete: " + hashtime_string);
 
+	if (whole_on){
+		sf::FloatRect bounds = hashresults.getGlobalBounds();
+		hashresults.setPosition({1440 - bounds.size.x/2.0f, 780});
+	}
+
+	else
+		hashresults.setPosition({985, 650});
 }
 
 void DisplayWindow::drawButtons(){
