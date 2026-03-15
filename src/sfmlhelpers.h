@@ -48,6 +48,11 @@ class DisplayWindow{
 		sf::Text hashresults;
 
 		std::string input;
+		std::string hashresult_string;
+		std::string hashtime_string;
+		std::string trieresult_string;
+		std::string trietime_string;
+
 		bool prefix_on;
 		bool whole_on;
 		bool cursorvisible;

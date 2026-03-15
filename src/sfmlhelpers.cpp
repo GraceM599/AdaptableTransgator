@@ -99,8 +99,6 @@ void DisplayWindow::configureStaticText(){
 	setupText(hashresults, "", 50, sf::Color::Black, {0, 0}, true);
 	cursor.setSize({2, 38});
 	cursor.setFillColor(sf::Color::Black);
-	// setupText(trieresults, "Translation", 50, sf::Color::Black, {340, 780}, true);
-	// setupText(hashresults, "Translation", 50, sf::Color::Black, {1335, 780}, true);
 }
 
 void DisplayWindow::updateCursor(){
@@ -137,8 +135,8 @@ void DisplayWindow::updateInputText(sf::Event &event){
 		}
 		
 		// check for enter and perform the search
-		if (keyEvent->code == sf::Keyboard::Key::Enter && input.size() > 0){
-			
+		if (keyEvent->code == sf::Keyboard::Key::Enter && input.size() > 0 && (whole_on || prefix_on)){
+			runSearch();
 		}
 	}
 	inputword.setString(input);
@@ -192,11 +190,23 @@ void DisplayWindow::runSearch(){
 }
 
 void DisplayWindow::updateTrieResults(){
+	trieresults.setString(trieresult_string);
+	trietime.setString("Time taken to complete: " + trietime_string);
 
+	if (whole_on){
+		sf::FloatRect bounds = hashresults.getGlobalBounds();
+		hashresults.setPosition({1440 - bounds.size.x/2.0f, 780});
+	}
 }
 
 void DisplayWindow::updateHashResults(){
+	hashresults.setString(hashresult_string);
+	hashtime.setString("Time taken to complete: " + hashtime_string);
 
+	if (whole_on){
+		sf::FloatRect bounds = hashresults.getGlobalBounds();
+		hashresults.setPosition({480 - bounds.size.x/2.0f, 780});
+	}
 }
 
 void DisplayWindow::drawButtons(){
