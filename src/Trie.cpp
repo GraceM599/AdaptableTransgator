@@ -126,9 +126,17 @@ std::vector<std::tuple<std::string, std::string>> Trie::prefixSearch(std::string
     prefixSearchHelper(currentNode, result, 0);
     std::sort(result.begin(),result.end(),sortbyth);
 
-    for (int i = 0; i < 10; i++) { //this may change to be larger or smaller than ten after talking to grace
+    if (result.size() > 5) {
+        for (int i = 0; i < 5; i++) { //this may change to be larger or smaller than ten after talking to grace
             smallerResult.push_back(std::make_tuple(std::get<0>(result[i]), std::get<1>(result[i])));
+        }
     }
+    else {
+        for (int i = 0; i < result.size(); i++) {
+            smallerResult.push_back(std::make_tuple(std::get<0>(result[i]), std::get<1>(result[i])));
+        }
+    }
+
     return smallerResult;
 }
 void Trie::prefixSearchHelper(Trie::TrieNode* start, std::vector<std::tuple<std::string, std::string, unsigned long long>>& result, int count) {
