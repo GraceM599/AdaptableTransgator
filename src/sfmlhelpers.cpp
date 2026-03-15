@@ -208,7 +208,7 @@ void DisplayWindow::runSearch(){
 		hashtime_string = "24.2819";
 		std::vector<std::tuple<std::string, std::string>> hashresultvec = {
 			{"hash", "hola"},
-			{"goodbye", "adiós"},
+			{"goodbye", "adios"},
 			{"please", "por favor"},
 			{"thanks", "gracias"},
 			{"water", "agua"}
@@ -216,16 +216,16 @@ void DisplayWindow::runSearch(){
 
 		for (int i = 0; i < 5; i++){
 			hashresult_string = hashresult_string + std::to_string(i+1) + ". " + 
-			std::get<0>(hashresultvec[i]) + " - " + std::get<1>(hashresultvec[i]) + "\n\n";
+			std::get<0>(hashresultvec[i]) + " - " + std::get<1>(hashresultvec[i]) + "\n\n\n";
 		}
-		hashresult_string.erase(hashresult_string.size() - 2);
+		hashresult_string.erase(hashresult_string.size() - 3);
 
 		// include something here for the trie time
 		// auto trieresultvec = trie.prefixSearch(input);
 
 		trietime_string = "0.219";
 		std::vector<std::tuple<std::string, std::string>> trieresultvec = {
-			{"trie", "gato"},
+			{"cat", "gato"},
 			{"dog", "perro"},
 			{"house", "casa"},
 			{"book", "libro"},
@@ -234,9 +234,9 @@ void DisplayWindow::runSearch(){
 
 		for (int i = 0; i < 5; i++){
 			trieresult_string = trieresult_string + std::to_string(i+1) + ". " + 
-			std::get<0>(trieresultvec[i]) + " - " + std::get<1>(trieresultvec[i]) + "\n\n";
+			std::get<0>(trieresultvec[i]) + " - " + std::get<1>(trieresultvec[i]) + "\n\n\n";
 		}
-		trieresult_string.erase(trieresult_string.size() - 4);
+		trieresult_string.erase(trieresult_string.size() - 3);
 	}
 	updateTrieResults();
 	updateHashResults();
