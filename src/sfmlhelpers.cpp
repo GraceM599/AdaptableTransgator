@@ -197,6 +197,10 @@ void DisplayWindow::updateTrieResults(){
 		sf::FloatRect bounds = hashresults.getGlobalBounds();
 		hashresults.setPosition({1440 - bounds.size.x/2.0f, 780});
 	}
+
+	else
+		trieresults.setPosition({25, 650});
+
 }
 
 void DisplayWindow::updateHashResults(){
@@ -207,6 +211,9 @@ void DisplayWindow::updateHashResults(){
 		sf::FloatRect bounds = hashresults.getGlobalBounds();
 		hashresults.setPosition({480 - bounds.size.x/2.0f, 780});
 	}
+
+	else
+		hashresults.setPosition({985, 650});
 }
 
 void DisplayWindow::drawButtons(){
