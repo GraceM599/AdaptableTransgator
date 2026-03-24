@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <chrono>
-
+#include <string>
 #include "dictionary.h"
 #include <fstream>
 #include <iostream>
@@ -29,7 +29,7 @@ struct Slot {
 
 //Used hash function djb2 from http://www.cse.yorku.ca/%7Eoz/hash.html
 //Known to be good for strings
-class HashMap : public dictionary{
+class HashMap{
     std::vector<Slot> table;
     //takes string and returns the hash as a large number
     unsigned long long hash(const std::string& en);
@@ -44,10 +44,10 @@ public:
     bool loadData();
 
     //inserts english, translation, and freq as an entry in the hash table
-    bool insert(std::string en, std::string trans, unsigned long long freq) override;
+    bool insert(std::string en, std::string trans, unsigned long long freq);
     //returns translation of english word through hash table lookup
     //returns "Not found!" if english word is not in dictionary
-    std::string search(std::string en) override;
+    std::string search(std::string en);
     //returns the Slot that the key en is stored at.
     Slot search_Slot(std::string en);
 

@@ -9,7 +9,7 @@
 
 #include "dictionary.h"
 
-class Trie : dictionary {
+class Trie  {
     struct TrieNode {
         bool isEnd;
         TrieNode* children[26];

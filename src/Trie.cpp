@@ -2,7 +2,7 @@
 //
 
 #include "Trie.h"
-
+#include <string>
 #include <algorithm>
 #include <chrono>
 
