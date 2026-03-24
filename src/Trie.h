@@ -7,8 +7,6 @@
 #include <algorithm>
 #include <chrono>
 
-#include "dictionary.h"
-
 class Trie  {
     struct TrieNode {
         bool isEnd;

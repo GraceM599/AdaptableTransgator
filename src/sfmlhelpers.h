@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "dictionary.h"
 #include "HashMap.h"
 #include "Trie.h"
 
