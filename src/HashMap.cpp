@@ -100,6 +100,7 @@ unsigned long long HashMap::hash(const std::string& en)
 
             if (table[index].en == en) {
                 //key matches
+                table[index].count++; // line added for count
                 return table[index].translation;
             }
             if (table[index].en == "") {

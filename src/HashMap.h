@@ -13,6 +13,7 @@
 struct Slot {
     std::string en;
     std::string translation;
+    int count;
     unsigned long long freq;
     Slot(std::string e, std::string t, unsigned long long f) {
         this->en = std::move(e);
