@@ -103,7 +103,11 @@ std::string Trie::search(std::string key) {
 }
 
 Trie::~Trie() { //still need to implement this
-    delete root;
+    for (int i = 0; i < 26; i++) {
+        if (root->children[i] != nullptr) {
+            delete root->children[i];
+        }
+    }
 }
 //helper comparator function is based on info found here: https://www.geeksforgeeks.org/cpp/sorting-vector-tuple-c-descending-order/
 bool sortbyth(const std::tuple<std::string, std::string, unsigned long long>& a,const std::tuple<std::string, std::string, unsigned long long>& b) {
