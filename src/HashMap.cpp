@@ -5,6 +5,13 @@
 
 #include <filesystem>
 
+unsigned long long adaptiveFormula(unsigned long long key, int count) {
+    int a = 1; //this is what we will be multiplying frequency by
+    int b = 5; //this is what we will be multiplying count by
+    int normalizedCount = std::log(1+count); //I am choosing to normalize the count so it doesn't dominate as soon as one thing is disproportionatly searched for
+    unsigned long long result = (a * key) + (b * normalizedCount);
+    return result;
+}
 
 unsigned long long HashMap::hash(const std::string& en)
     {
