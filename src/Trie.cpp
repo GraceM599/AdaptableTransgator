@@ -152,9 +152,9 @@ std::vector<std::tuple<std::string, std::string>> Trie::prefixSearch(std::string
 }
 
 unsigned long long adaptiveFormula(unsigned long long key, int count) {
-    int a = 1; //this is what we will be multiplying frequency by
-    int b = 5; //this is what we will be multiplying count by
-    int normalizedCount = std::log(1+count); //I am choosing to normalize the count so it doesn't dominate as soon as one thing is disproportionatly searched for
+    double a = 1.0; //this is what we will be multiplying frequency by
+    double b = 5.0; //this is what we will be multiplying count by
+    double normalizedCount = std::log(1+count); //I am choosing to normalize the count so it doesn't dominate as soon as one thing is disproportionatly searched for
     unsigned long long result = (a * key) + (b * normalizedCount);
     return result;
 }
