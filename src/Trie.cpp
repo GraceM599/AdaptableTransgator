@@ -166,7 +166,8 @@ void Trie::prefixSearchHelper(Trie::TrieNode* start, std::vector<std::tuple<std:
 
     if (start->isEnd) { //check if where we are at is a word if it is add it because we want any words with 0-3 chars added on
         //here we will go into a calculation on what frequency we want
-        result.push_back(std::make_tuple(start->word, start->conversion, start->frequency));
+        unsigned long long newFrequency = adaptiveFormula(start->frequency, start->count);
+        result.push_back(std::make_tuple(start->word, start->conversion, newFrequency));
     }
 
     if (count == 3) { //we want to only go three down so break out of the recursive call here
