@@ -160,6 +160,7 @@ unsigned long long HashMap::hash(const std::string& en)
                     seen.insert(word);
                     t = search_Slot(word);
                     if (t.freq != 0) {
+                        t.freq = adaptiveFormula(t.freq,t.count); //added this to implement adaptivness?? - mikaela
                         total.push(t);
                     }
                 }
